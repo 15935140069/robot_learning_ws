@@ -1,0 +1,19 @@
+# ROS 2 构建产物：不提交
+build/
+install/
+log/
+
+# rosbag 与运行输出：不提交
+bag/
+bags/
+output/
+outputs/
+
+# Python 缓存：不提交
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 编辑器缓存：不提交
+.vscode/
+.idea/
