@@ -1,0 +1,40 @@
+joint_state_mock_publisher:
+  ros__parameters:
+    publish_rate_hz: 10.0
+    motion_amplitude_rad: 0.5
+    frame_id: base_link
+    debug: false
+
+    joint_names:
+      - joint_1
+      - joint_2
+      - joint_3
+      - joint_4
+      - joint_5
+      - joint_6
+
+    joint_phase_offsets_rad:
+      - 0.0
+      - 0.5
+      - 1.0
+      - 1.5
+      - 2.0
+      - 2.5
+      
+pose_query_service:
+  ros__parameters:
+    frame_id: base_link
+    demo_cube_position_xyz:
+      - 0.45
+      - 0.0
+      - 0.15
+    demo_cylinder_position_xyz:
+      - 0.35
+      - -0.20
+      - 0.20
+    debug: false
+
+execute_pick_action_server:
+  ros__parameters:
+    stage_delay_sec: 0.8
+    debug: false

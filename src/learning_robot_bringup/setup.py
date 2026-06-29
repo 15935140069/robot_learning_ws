@@ -1,6 +1,11 @@
+import os
+from glob import glob
+
 from setuptools import find_packages, setup
 
+
 package_name = 'learning_robot_bringup'
+
 
 setup(
     name=package_name,
@@ -11,13 +16,27 @@ setup(
             'share/ament_index/resource_index/packages',
             ['resource/' + package_name],
         ),
-        ('share/' + package_name, ['package.xml']),
+        (
+            os.path.join('share', package_name),
+            ['package.xml'],
+        ),
+        (
+            os.path.join('share', package_name, 'launch'),
+            glob('launch/*.launch.py'),
+        ),
+        (
+            os.path.join('share', package_name, 'config'),
+            glob('config/*.yaml'),
+        ),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='renyinjie',
     maintainer_email='15935140069@163.com',
-    description='ROS2 bringup, launch files, parameters, and Week 1 communication demos.',
+    description=(
+        'ROS2 bringup, launch files, parameters, '
+        'and Week 1 communication demos.'
+    ),
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
