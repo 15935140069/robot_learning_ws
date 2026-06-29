@@ -1,0 +1,11 @@
+geometry_msgs/PoseStamped object_pose
+string object_class
+bool use_learned_local_skill
+---
+bool success
+string failure_code
+string selected_candidate_id
+float32 planning_time
+---
+string phase
+float32 progress
