@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!--
+    Self-maintained UR5e arm wrapper.
+    The actual UR5e link/joint definitions remain in ur_macro.xacro.
+    This macro adds no gripper, tcp, camera, controller, or task logic.
+  -->
+  <xacro:include filename="$(find learning_robot_description)/urdf/ur_macro.xacro"/>
+
+  <xacro:macro name="learning_ur5e_arm" params="
+    name
+    tf_prefix
+    parent
+    *origin
+    joint_limits_parameters_file
+    kinematics_parameters_file
+    physical_parameters_file
+    visual_parameters_file
+    safety_limits:=false
+    safety_pos_margin:=0.15
+    safety_k_position:=20
+    force_abs_paths:=false
+    ">
+
+    <xacro:ur_robot
+      name="${name}"
+      tf_prefix="${tf_prefix}"
+      parent="${parent}"
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
+      kinematics_parameters_file="${kinematics_parameters_file}"
+      physical_parameters_file="${physical_parameters_file}"
+      visual_parameters_file="${visual_parameters_file}"
+      safety_limits="${safety_limits}"
+      safety_pos_margin="${safety_pos_margin}"
+      safety_k_position="${safety_k_position}"
+      force_abs_paths="${force_abs_paths}">
+
+      <xacro:insert_block name="origin"/>
+    </xacro:ur_robot>
+
+  </xacro:macro>
+
+</robot>

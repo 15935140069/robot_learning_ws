@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!-- TCP: the grasping reference point, not the wrist or tool0 origin. -->
+  <xacro:macro name="learning_gripper_tcp" params="
+    parent
+    tf_prefix:=''
+    *origin
+    ">
+
+    <link name="${tf_prefix}tcp"/>
+
+    <joint name="${tf_prefix}gripper_base_to_tcp" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${tf_prefix}tcp"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+  </xacro:macro>
+
+  <!-- A simple fixed external camera model for TF learning. -->
+  <xacro:macro name="learning_fixed_camera" params="
+    parent
+    tf_prefix:=''
+    *origin
+    ">
+
+    <link name="${tf_prefix}camera_link">
+      <visual>
+        <origin xyz="0.03 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.06 0.04 0.04"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.03 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.06 0.04 0.04"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <origin xyz="0.03 0 0" rpy="0 0 0"/>
+        <mass value="0.05"/>
+        <inertia
+          ixx="0.00001" ixy="0.0" ixz="0.0"
+          iyy="0.00001" iyz="0.0"
+          izz="0.00001"/>
+      </inertial>
+    </link>
+
+    <joint name="${tf_prefix}camera_mount_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${tf_prefix}camera_link"/>
+      <xacro:insert_block name="origin"/>
+    </joint>
+
+    <!-- Optical convention: +Z forward, +X right, +Y down. -->
+    <link name="${tf_prefix}camera_optical_frame"/>
+
+    <joint name="${tf_prefix}camera_link_to_optical" type="fixed">
+      <parent link="${tf_prefix}camera_link"/>
+      <child link="${tf_prefix}camera_optical_frame"/>
+      <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

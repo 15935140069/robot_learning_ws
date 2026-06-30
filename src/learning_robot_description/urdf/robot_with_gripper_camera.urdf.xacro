@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
 
-  <!-- Arm-only UR5e entry. Day 2 later adds a separate full-model entry. -->
   <xacro:arg name="name" default="learning_ur5e"/>
   <xacro:arg name="ur_type" default="ur5e"/>
   <xacro:arg name="tf_prefix" default=""/>
@@ -24,7 +23,16 @@
   <xacro:arg name="safety_k_position" default="20"/>
   <xacro:arg name="force_abs_paths" default="false"/>
 
+  <xacro:arg name="use_gripper" default="true"/>
+  <xacro:arg name="use_camera" default="true"/>
+
+  <!-- Temporary learning-view camera mount pose; validate in RViz on Day 3. -->
+  <xacro:arg name="camera_xyz" default="-0.60 -0.45 0.75"/>
+  <xacro:arg name="camera_rpy" default="0 0.55 0.46"/>
+
   <xacro:include filename="$(find learning_robot_description)/urdf/arm_macro.xacro"/>
+  <xacro:include filename="$(find learning_robot_description)/urdf/gripper_macro.xacro"/>
+  <xacro:include filename="$(find learning_robot_description)/urdf/tool_camera_macro.xacro"/>
 
   <link name="world"/>
 
@@ -43,5 +51,30 @@
 
     <origin xyz="0 0 0" rpy="0 0 0"/>
   </xacro:learning_ur5e_arm>
+
+  <xacro:if value="$(arg use_gripper)">
+    <xacro:learning_parallel_gripper
+      parent="$(arg tf_prefix)tool0"
+      tf_prefix="$(arg tf_prefix)">
+
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:learning_parallel_gripper>
+
+    <xacro:learning_gripper_tcp
+      parent="$(arg tf_prefix)gripper_base_link"
+      tf_prefix="$(arg tf_prefix)">
+
+      <origin xyz="0.145 0 0" rpy="0 0 0"/>
+    </xacro:learning_gripper_tcp>
+  </xacro:if>
+
+  <xacro:if value="$(arg use_camera)">
+    <xacro:learning_fixed_camera
+      parent="$(arg tf_prefix)base_link"
+      tf_prefix="$(arg tf_prefix)">
+
+      <origin xyz="$(arg camera_xyz)" rpy="$(arg camera_rpy)"/>
+    </xacro:learning_fixed_camera>
+  </xacro:if>
 
 </robot>
