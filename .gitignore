@@ -17,3 +17,6 @@ __pycache__/
 # 编辑器缓存：不提交
 .vscode/
 .idea/
+
+# Local third-party reference repositories
+third_party_reference/
