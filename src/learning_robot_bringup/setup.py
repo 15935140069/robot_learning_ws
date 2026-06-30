@@ -48,6 +48,7 @@ setup(
             'learning_robot_bringup.pose_query_service:main',
             'execute_pick_action_server = '
             'learning_robot_bringup.execute_pick_action_server:main',
+            'pick_task_client = learning_robot_bringup.pick_task_client:main',
         ],
     },
 )
