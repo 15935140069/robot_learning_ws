@@ -38,3 +38,4 @@ execute_pick_action_server:
   ros__parameters:
     stage_delay_sec: 1.2
     debug: true
+    event_log_path: ~/.ros/robot_learning_logs/execute_pick_debug.log
