@@ -1,41 +1,45 @@
 <?xml version="1.0"?>
-<robot
-  xmlns:xacro="http://www.ros.org/wiki/xacro"
-  name="learning_ur5e">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+   <!-- robot name parameter -->
+   <xacro:arg name="name" default="ur"/>
+   <!-- import main macro -->
+   <xacro:include filename="$(find learning_robot_description)/urdf/ur_macro.xacro"/>
 
-  <!--
-    Week 2 / Day 1:
-    自己维护的机器人描述入口文件。
-    当前先建立 base_link 和 URDF 基本结构。
-    后续会逐步加入 UR5e 关节链、夹爪、TCP 和相机。
-  -->
+   <!-- possible 'ur_type' values: ur3, ur5, ur10, ur3e, ur5e, ur7e, ur10e, ur12e, ur16e, ur8long, ur15, ur18, ur20, ur30 -->
+   <!-- the default value should raise an error in case this was called without defining the type -->
+   <xacro:arg name="ur_type" default="ur5x"/>
 
-  <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0.04" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.10" length="0.08" />
-      </geometry>
-    </visual>
+   <!-- parameters -->
+   <xacro:arg name="tf_prefix" default="" />
+   <xacro:arg name="joint_limit_params" default="$(find learning_robot_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+   <xacro:arg name="kinematics_params" default="$(find learning_robot_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+   <xacro:arg name="physical_params" default="$(find learning_robot_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+   <xacro:arg name="visual_params" default="$(find learning_robot_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+   <xacro:arg name="transmission_hw_interface" default=""/>
+   <xacro:arg name="safety_limits" default="false"/>
+   <xacro:arg name="safety_pos_margin" default="0.15"/>
+   <xacro:arg name="safety_k_position" default="20"/>
 
-    <collision>
-      <origin xyz="0 0 0.04" rpy="0 0 0" />
-      <geometry>
-        <cylinder radius="0.10" length="0.08" />
-      </geometry>
-    </collision>
+   <!--When using gazebo simulations absolute paths are necessary.-->
+   <xacro:arg name="force_abs_paths" default="false" />
 
-    <inertial>
-      <origin xyz="0 0 0.04" rpy="0 0 0" />
-      <mass value="5.0" />
-      <inertia
-        ixx="0.020"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.020"
-        iyz="0.0"
-        izz="0.020" />
-    </inertial>
-  </link>
+   <!-- create link fixed to the "world" -->
+   <link name="world" />
 
+   <!-- arm -->
+   <xacro:ur_robot
+     name="$(arg name)"
+     tf_prefix="$(arg tf_prefix)"
+     parent="world"
+     joint_limits_parameters_file="$(arg joint_limit_params)"
+     kinematics_parameters_file="$(arg kinematics_params)"
+     physical_parameters_file="$(arg physical_params)"
+     visual_parameters_file="$(arg visual_params)"
+     safety_limits="$(arg safety_limits)"
+     safety_pos_margin="$(arg safety_pos_margin)"
+     safety_k_position="$(arg safety_k_position)"
+     force_abs_paths="$(arg force_abs_paths)"
+     >
+     <origin xyz="0 0 0" rpy="0 0 0" />          <!-- position robot in the world -->
+   </xacro:ur_robot>
 </robot>
