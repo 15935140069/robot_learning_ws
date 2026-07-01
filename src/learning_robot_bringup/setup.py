@@ -49,6 +49,7 @@ setup(
             'execute_pick_action_server = '
             'learning_robot_bringup.execute_pick_action_server:main',
             'pick_task_client = learning_robot_bringup.pick_task_client:main',
+            'tf_probe_node = learning_robot_bringup.tf_probe_node:main',
         ],
     },
 )

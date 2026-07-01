@@ -1,0 +1,26 @@
+header:
+  stamp:
+    sec: 1782916403
+    nanosec: 738014675
+  frame_id: ''
+name:
+- shoulder_pan_joint
+- shoulder_lift_joint
+- elbow_joint
+- wrist_1_joint
+- wrist_2_joint
+- wrist_3_joint
+- left_finger_joint
+- right_finger_joint
+position:
+- -0.5767964111990862
+- -1.5280706667060748
+- 1.6474511875424875
+- -1.7995042719762333
+- 0.3053628059289277
+- -1.0530618574832982
+- 0.014919
+- 0.015081
+velocity: []
+effort: []
+---
