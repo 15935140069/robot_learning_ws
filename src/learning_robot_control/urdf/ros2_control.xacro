@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!--
+    Week 3 Day 1:
+    - command interface: position
+    - state interfaces: position, velocity
+    - effort is learned conceptually this day, but is not exposed because
+      the current Fake Hardware baseline uses position trajectory control only.
+  -->
+  <xacro:macro name="learning_position_control_joint" params="joint_name">
+    <joint name="${joint_name}">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="learning_ros2_control_system" params="system_name">
+    <ros2_control name="${system_name}" type="system">
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+      </hardware>
+
+      <!-- UR5e six revolute joints -->
+      <xacro:learning_position_control_joint joint_name="shoulder_pan_joint"/>
+      <xacro:learning_position_control_joint joint_name="shoulder_lift_joint"/>
+      <xacro:learning_position_control_joint joint_name="elbow_joint"/>
+      <xacro:learning_position_control_joint joint_name="wrist_1_joint"/>
+      <xacro:learning_position_control_joint joint_name="wrist_2_joint"/>
+      <xacro:learning_position_control_joint joint_name="wrist_3_joint"/>
+
+      <!-- Teaching parallel gripper -->
+      <xacro:learning_position_control_joint joint_name="left_finger_joint"/>
+      <xacro:learning_position_control_joint joint_name="right_finger_joint"/>
+    </ros2_control>
+  </xacro:macro>
+
+</robot>

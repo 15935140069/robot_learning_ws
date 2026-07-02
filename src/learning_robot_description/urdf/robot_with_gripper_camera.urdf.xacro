@@ -26,6 +26,8 @@
   <xacro:arg name="use_gripper" default="true"/>
   <xacro:arg name="use_camera" default="true"/>
 
+  <xacro:arg name="use_ros2_control" default="false"/>
+
   <!-- Temporary learning-view camera mount pose; validate in RViz on Day 3. -->
   <xacro:arg name="camera_xyz" default="-0.60 -0.45 0.75"/>
   <xacro:arg name="camera_rpy" default="0 0.55 0.46"/>
@@ -75,6 +77,13 @@
 
       <origin xyz="$(arg camera_xyz)" rpy="$(arg camera_rpy)"/>
     </xacro:learning_fixed_camera>
+  </xacro:if>
+
+
+  <xacro:if value="$(arg use_ros2_control)">
+    <xacro:include filename="$(find learning_robot_control)/urdf/ros2_control.xacro"/>
+    <xacro:learning_ros2_control_system
+      system_name="learning_ur5e_fake_hardware"/>
   </xacro:if>
 
 </robot>
